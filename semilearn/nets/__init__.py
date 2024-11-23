@@ -10,3 +10,4 @@ from .vit import (vit_base_patch16_96, vit_base_patch16_224,
                   vit_tiny_patch2_32)
 from .wave2vecv2 import wave2vecv2_base
 from .wrn import wrn_28_2, wrn_28_8, wrn_var_37_2
+from .xlnet import xlnet_base_cased

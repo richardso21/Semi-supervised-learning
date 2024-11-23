@@ -118,3 +118,8 @@ def get_roberta_base_sentiment_collactor(max_length=512):
     tokenizer = AutoTokenizer.from_pretrained('cardiffnlp/twitter-roberta-base-sentiment-latest')
     collact_fn = DataCollatorWithPadding(tokenizer, max_length=max_length)
     return collact_fn
+
+def get_xlnet_base_cased_collactor(max_length=512):
+    tokenizer = AutoTokenizer.from_pretrained('xlnet/xlnet-base-cased')
+    collact_fn = DataCollatorWithPadding(tokenizer, max_length=max_length)
+    return collact_fn
