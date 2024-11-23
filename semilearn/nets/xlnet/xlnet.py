@@ -3,15 +3,19 @@
 
 import torch
 import torch.nn as nn
-from transformers import XLNetForSequenceClassification
+from transformers import XLNetModel
 
 
 class ClassificationXLNet(nn.Module):
     def __init__(self, name, num_classes=2):
         super(ClassificationXLNet, self).__init__()
-        # Load pre-trained xlnet model
-        self.xlnet = XLNetForSequenceClassification.from_pretrained(name, num_labels=num_classes)
+        # Load pre-trained roberta model
+        self.xlnet = XLNetModel.from_pretrained(name)
         self.dropout = torch.nn.Dropout(p=0.1, inplace=False)
+        self.num_features = 768
+        self.classifier = nn.Sequential(
+            *[nn.Linear(768, 768), nn.GELU(), nn.Linear(768, num_classes)]
+        )
 
     def forward(self, x, only_fc=False, only_feat=False, return_embed=False, **kwargs):
         """
@@ -22,7 +26,7 @@ class ClassificationXLNet(nn.Module):
             return_embed: return word embedding, used for vat
         """
         if only_fc:
-            logits = self.xlnet(**x)[0]
+            logits = self.classifier(x)
             return logits
 
         out_dict = self.xlnet(**x, output_hidden_states=True, return_dict=True)
@@ -33,7 +37,7 @@ class ClassificationXLNet(nn.Module):
         if only_feat:
             return pooled_output
 
-        logits = self.xlnet(**x)[0]
+        logits = self.classifier(pooled_output)
         result_dict = {"logits": logits, "feat": pooled_output}
 
         if return_embed:
