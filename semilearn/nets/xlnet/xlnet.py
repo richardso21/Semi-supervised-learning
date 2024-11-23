@@ -54,8 +54,8 @@ class ClassificationXLNet(nn.Module):
 
     def group_matcher(self, coarse=False, prefix=""):
         matcher = dict(
-            stem=r"^{}bert.embeddings".format(prefix),
-            blocks=r"^{}bert.encoder.layer.(\d+)".format(prefix),
+            stem=r"^{}xlnet.word_embedding".format(prefix),
+            blocks=r"^{}xlnet.layer.(\d+)".format(prefix),
         )
         return matcher
 
@@ -66,3 +66,8 @@ class ClassificationXLNet(nn.Module):
 def xlnet_base_cased(pretrained=True, pretrained_path=None, **kwargs):
     model = ClassificationXLNet(name="xlnet/xlnet-base-cased", **kwargs)
     return model
+
+
+if __name__ == "__main__":
+    model = xlnet_base_cased()
+    print(model)

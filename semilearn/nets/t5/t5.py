@@ -54,8 +54,11 @@ class ClassificationT5(nn.Module):
 
     def group_matcher(self, coarse=False, prefix=""):
         matcher = dict(
-            stem=r"^{}bert.embeddings".format(prefix),
-            blocks=r"^{}bert.encoder.layer.(\d+)".format(prefix),
+            stem=r"^{}shared".format(prefix),
+            blocks=[
+                r"^{}encoder.block.(\d+)".format(prefix),
+                r"^{}decoder.block.(\d+)".format(prefix),
+            ],
         )
         return matcher
 
@@ -66,3 +69,8 @@ class ClassificationT5(nn.Module):
 def t5_base(pretrained=True, pretrained_path=None, **kwargs):
     model = ClassificationT5(name="google-t5/t5-base", **kwargs)
     return model
+
+
+if __name__ == "__main__":
+    model = t5_base()
+    print(model)
