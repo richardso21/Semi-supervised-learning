@@ -3,6 +3,7 @@
 
 from .bert import bert_base_cased, bert_base_uncased
 from .hubert import hubert_base
+from .llama import llama_8b
 from .resnet import resnet50
 from .roberta import roberta_base
 from .t5 import t5_base
