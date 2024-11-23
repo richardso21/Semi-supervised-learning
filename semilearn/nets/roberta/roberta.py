@@ -66,3 +66,7 @@ class ClassificationRoberta(nn.Module):
 def roberta_base(pretrained=True, pretrained_path=None, **kwargs):
     model = ClassificationRoberta(name="FacebookAI/roberta-base", **kwargs)
     return model
+
+def roberta_base_sentiment(pretrained=True, pretrained_path=None, **kwargs):
+    model = ClassificationRoberta(name="cardiffnlp/twitter-roberta-base-sentiment-latest", **kwargs)
+    return model

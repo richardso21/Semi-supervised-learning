@@ -152,6 +152,9 @@ def get_collactor(args, net):
     elif net == 'roberta_base':
         from semilearn.datasets.collactors import get_roberta_base_collactor
         collact_fn = get_roberta_base_collactor(args.max_length)
+    elif net == 'roberta_base_sentiment':
+        from semilearn.datasets.collactors import get_roberta_base_sentiment_collactor
+        collact_fn = get_roberta_base_sentiment_collactor(args.max_length)
     else:
         collact_fn = None
     return collact_fn
