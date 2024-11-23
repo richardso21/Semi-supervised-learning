@@ -158,6 +158,9 @@ def get_collactor(args, net):
     elif net == 'xlnet_base_cased':
         from semilearn.datasets.collactors import get_xlnet_base_cased_collactor
         collact_fn = get_xlnet_base_cased_collactor(args.max_length)
+    elif net == 't5_base':
+        from semilearn.datasets.collactors import get_t5_base_collactor
+        collact_fn = get_t5_base_collactor(args.max_length)
     else:
         collact_fn = None
     return collact_fn
