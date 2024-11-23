@@ -3,14 +3,14 @@
 
 import torch
 import torch.nn as nn
-from transformers import XLNetModel
+from transformers import XLNetForSequenceClassification
 
 
 class ClassificationXLNet(nn.Module):
     def __init__(self, name, num_classes=2):
         super(ClassificationXLNet, self).__init__()
         # Load pre-trained roberta model
-        self.xlnet = XLNetModel.from_pretrained(name)
+        self.xlnet = XLNetForSequenceClassification.from_pretrained(name)
         self.dropout = torch.nn.Dropout(p=0.1, inplace=False)
         self.num_features = 768
         self.classifier = nn.Sequential(
