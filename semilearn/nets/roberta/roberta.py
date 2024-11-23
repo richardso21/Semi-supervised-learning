@@ -54,8 +54,8 @@ class ClassificationRoberta(nn.Module):
 
     def group_matcher(self, coarse=False, prefix=""):
         matcher = dict(
-            stem=r"^{}bert.embeddings".format(prefix),
-            blocks=r"^{}bert.encoder.layer.(\d+)".format(prefix),
+            stem=r"^{}roberta.embeddings".format(prefix),
+            blocks=r"^{}roberta.encoder.layer.(\d+)".format(prefix),
         )
         return matcher
 
@@ -67,6 +67,14 @@ def roberta_base(pretrained=True, pretrained_path=None, **kwargs):
     model = ClassificationRoberta(name="FacebookAI/roberta-base", **kwargs)
     return model
 
+
 def roberta_base_sentiment(pretrained=True, pretrained_path=None, **kwargs):
-    model = ClassificationRoberta(name="cardiffnlp/twitter-roberta-base-sentiment-latest", **kwargs)
+    model = ClassificationRoberta(
+        name="cardiffnlp/twitter-roberta-base-sentiment-latest", **kwargs
+    )
     return model
+
+
+if __name__ == "__main__":
+    model = roberta_base()
+    print(model)
