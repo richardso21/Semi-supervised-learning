@@ -149,6 +149,9 @@ def get_collactor(args, net):
     elif net == 'hubert_base':
         from semilearn.datasets.collactors import get_hubert_base_collactor
         collact_fn = get_hubert_base_collactor(args.max_length_seconds, args.sample_rate)
+    elif net == 'roberta_base':
+        from semilearn.datasets.collactors import get_roberta_base_collactor
+        collact_fn = get_roberta_base_collactor(args.max_length)
     else:
         collact_fn = None
     return collact_fn

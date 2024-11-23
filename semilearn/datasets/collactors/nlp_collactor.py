@@ -4,7 +4,7 @@
 from dataclasses import dataclass
 from typing import Any, Callable, Dict, List, NewType, Optional, Tuple, Union
 
-from transformers import BertTokenizer, BertTokenizerFast
+from transformers import AutoTokenizer, BertTokenizer, BertTokenizerFast
 from transformers.file_utils import PaddingStrategy
 from transformers.tokenization_utils_base import PreTrainedTokenizerBase
 from transformers.data import default_data_collator
@@ -106,5 +106,10 @@ def get_bert_base_uncased_collactor(max_length=512):
 
 def get_bert_base_cased_collactor(max_length=512):
     tokenizer = BertTokenizerFast.from_pretrained('bert-base-cased')
+    collact_fn = DataCollatorWithPadding(tokenizer, max_length=max_length)
+    return collact_fn
+
+def get_roberta_base_collactor(max_length=512):
+    tokenizer = AutoTokenizer.from_pretrained('FacebookAI/roberta-base')
     collact_fn = DataCollatorWithPadding(tokenizer, max_length=max_length)
     return collact_fn
