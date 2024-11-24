@@ -1,4 +1,3 @@
-*.sbatch
 sbatch_logs/
 logs/
 
