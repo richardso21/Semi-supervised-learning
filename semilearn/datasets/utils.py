@@ -164,6 +164,9 @@ def get_collactor(args, net):
     elif net == "llama_8b":
         from semilearn.datasets.collactors import get_llama_8b_collactor
         collact_fn = get_llama_8b_collactor(args.max_length, args.prefix)
+    elif net == "deberta_base":
+        from semilearn.datasets.collactors import get_deberta_base_collactor
+        collact_fn = get_deberta_base_collactor(args.max_length)
     else:
         collact_fn = None
     return collact_fn

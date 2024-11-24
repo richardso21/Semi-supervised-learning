@@ -195,3 +195,8 @@ def get_llama_8b_collactor(max_length=512, prefix=""):
     tokenizer = LlamaTokenizer.from_pretrained("meta-llama/Meta-Llama-3-8B")
     collact_fn = DataCollatorWithPadding(tokenizer, max_length=max_length, prefix=prefix)
     return collact_fn
+
+def get_deberta_base_collactor(max_length=512):
+    tokenizer = AutoTokenizer.from_pretrained("microsoft/deberta-base")
+    collact_fn = DataCollatorWithPadding(tokenizer, max_length=max_length)
+    return collact_fn
