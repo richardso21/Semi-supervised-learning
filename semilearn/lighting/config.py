@@ -98,6 +98,7 @@ def get_config(config):
 
     ## nlp dataset arguments 
     parser.add_argument('--max_length', type=int, default=512)
+    parser.add_argument('--prefix', type=str, default="")
 
     ## speech dataset algorithms
     parser.add_argument('--max_length_seconds', type=float, default=4.0)

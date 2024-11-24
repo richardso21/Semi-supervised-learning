@@ -42,6 +42,7 @@ class DataCollatorWithPadding:
     max_length: Optional[int] = None
     pad_to_multiple_of: Optional[int] = None
     return_tensors: str = "pt"
+    prefix: str = ""
 
     def __call__(self, features):
         w_features = []
@@ -50,14 +51,17 @@ class DataCollatorWithPadding:
         for f in features:
             f_ = {k: v for k, v in f.items() if "text" not in k}
             input_ids = self.tokenizer(
-                f["text"], max_length=self.max_length, truncation=True, padding=False
+                self.add_prefix(f["text"]),
+                max_length=self.max_length,
+                truncation=True,
+                padding=False,
             )["input_ids"]
             f_["input_ids"] = input_ids
             w_features.append(f_)
 
             if "text_s" in f:
                 input_ids_s = self.tokenizer(
-                    f["text_s"],
+                    self.add_prefix(f["text_s"]),
                     max_length=self.max_length,
                     truncation=True,
                     padding=False,
@@ -66,7 +70,7 @@ class DataCollatorWithPadding:
 
             if "text_s_" in f:
                 input_ids_s_ = self.tokenizer(
-                    f["text_s_"],
+                    self.add_prefix(f["text_s_"]),
                     max_length=self.max_length,
                     truncation=True,
                     padding=False,
@@ -143,6 +147,11 @@ class DataCollatorWithPadding:
                     },
                 }
 
+    def add_prefix(self, text: str):
+        if self.prefix != "":
+            return self.prefix + text
+        return text
+
 
 def get_bert_base_uncased_collactor(max_length=512):
     tokenizer = BertTokenizerFast.from_pretrained("bert-base-uncased")
@@ -176,9 +185,9 @@ def get_xlnet_base_cased_collactor(max_length=512):
     return collact_fn
 
 
-def get_t5_base_collactor(max_length=512):
+def get_t5_base_collactor(max_length=512, prefix=""):
     tokenizer = T5Tokenizer.from_pretrained("google-t5/t5-base")
-    collact_fn = DataCollatorWithPadding(tokenizer, max_length=max_length)
+    collact_fn = DataCollatorWithPadding(tokenizer, max_length=max_length, prefix=prefix)
     return collact_fn
 
 

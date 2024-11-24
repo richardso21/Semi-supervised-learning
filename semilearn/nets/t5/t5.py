@@ -10,7 +10,7 @@ class ClassificationT5(nn.Module):
     def __init__(self, name, num_classes=2):
         super(ClassificationT5, self).__init__()
         # Load pre-trained bert model
-        self.bert = T5Model.from_pretrained(name)
+        self.t5 = T5Model.from_pretrained(name)
         self.dropout = torch.nn.Dropout(p=0.1, inplace=False)
         self.num_features = 768
         self.classifier = nn.Sequential(
@@ -29,7 +29,7 @@ class ClassificationT5(nn.Module):
             logits = self.classifier(x)
             return logits
 
-        out_dict = self.bert(**x, output_hidden_states=True, return_dict=True)
+        out_dict = self.t5(**x, output_hidden_states=True, return_dict=True)
         last_hidden = out_dict["last_hidden_state"]
         drop_hidden = self.dropout(last_hidden)
         pooled_output = torch.mean(drop_hidden, 1)
@@ -46,7 +46,7 @@ class ClassificationT5(nn.Module):
         return result_dict
 
     def extract(self, x):
-        out_dict = self.bert(**x, output_hidden_states=True, return_dict=True)
+        out_dict = self.t5(**x, output_hidden_states=True, return_dict=True)
         last_hidden = out_dict["last_hidden_state"]
         drop_hidden = self.dropout(last_hidden)
         pooled_output = torch.mean(drop_hidden, 1)
