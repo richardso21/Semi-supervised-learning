@@ -1,5 +1,6 @@
 *.sbatch
 sbatch_logs/
+logs/
 
 data_statistics/
 data/
