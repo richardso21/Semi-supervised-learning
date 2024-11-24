@@ -163,7 +163,7 @@ def get_collactor(args, net):
         collact_fn = get_t5_base_collactor(args.max_length, args.prefix)
     elif net == "llama_8b":
         from semilearn.datasets.collactors import get_llama_8b_collactor
-        collact_fn = get_llama_8b_collactor(args.max_length)
+        collact_fn = get_llama_8b_collactor(args.max_length, args.prefix)
     else:
         collact_fn = None
     return collact_fn
