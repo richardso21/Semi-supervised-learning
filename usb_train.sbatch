@@ -30,7 +30,12 @@ ALGORITHM='simmatch'
 # MODEL='_deberta_base'
 # MODEL='_t5_base'
 # MODEL='_xlnet_base_cased'
-# MODEL='_llama_8b'
-MODEL='_llama_8b_lora'
+# MODEL='_llama_8b_base'
+# MODEL='_llama_8b_instruct'
+MODEL='_llama_3b_base'
+# MODEL='_llama_3b_instruct'
+# MODEL='_llama_1b_base'
+# MODEL='_llama_1b_instruct'
 
+# python -m pdb -c continue train.py --c "config/usb_nlp/${ALGORITHM}/${ALGORITHM}_${DATASET}_0${MODEL}.yaml"
 python train.py --c "config/usb_nlp/${ALGORITHM}/${ALGORITHM}_${DATASET}_0${MODEL}.yaml"

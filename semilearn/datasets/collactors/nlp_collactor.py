@@ -191,14 +191,9 @@ def get_t5_base_collactor(max_length=512, prefix=""):
     return collact_fn
 
 
-def get_llama_8b_collactor(max_length=512, prefix=""):
-    tokenizer = AutoTokenizer.from_pretrained("meta-llama/Meta-Llama-3-8B-Instruct")
-    collact_fn = DataCollatorWithPadding(tokenizer, max_length=max_length, prefix=prefix)
-    return collact_fn
-
-
-def get_llama_8b_lora_collactor(max_length=512, prefix=""):
-    tokenizer = AutoTokenizer.from_pretrained("meta-llama/Meta-Llama-3-8B-Instruct")
+def get_llama_collactor(model_name, max_length=512, prefix=""):
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    tokenizer.pad_token = tokenizer.eos_token
     collact_fn = DataCollatorWithPadding(tokenizer, max_length=max_length, prefix=prefix)
     return collact_fn
 

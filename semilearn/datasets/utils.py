@@ -155,21 +155,30 @@ def get_collactor(args, net):
     elif net == 'roberta_base_sentiment':
         from semilearn.datasets.collactors import get_roberta_base_sentiment_collactor
         collact_fn = get_roberta_base_sentiment_collactor(args.max_length)
+    elif net == "deberta_base":
+        from semilearn.datasets.collactors import get_deberta_base_collactor
+        collact_fn = get_deberta_base_collactor(args.max_length)
     elif net == 'xlnet_base_cased':
         from semilearn.datasets.collactors import get_xlnet_base_cased_collactor
         collact_fn = get_xlnet_base_cased_collactor(args.max_length)
     elif net == 't5_base':
         from semilearn.datasets.collactors import get_t5_base_collactor
         collact_fn = get_t5_base_collactor(args.max_length, args.prefix)
-    elif net == "llama_8b":
-        from semilearn.datasets.collactors import get_llama_8b_collactor
-        collact_fn = get_llama_8b_collactor(args.max_length, args.prefix)
-    elif net == "llama_8b_lora":
-        from semilearn.datasets.collactors import get_llama_8b_lora_collactor
-        collact_fn = get_llama_8b_lora_collactor(args.max_length, args.prefix)
-    elif net == "deberta_base":
-        from semilearn.datasets.collactors import get_deberta_base_collactor
-        collact_fn = get_deberta_base_collactor(args.max_length)
+    elif net.startswith("llama"):
+        from semilearn.datasets.collactors import get_llama_collactor
+        if net == "llama_8b_base":
+            model_name = "meta-llama/Llama-3.1-8B"
+        if net == "llama_8b_instruct":
+            model_name = "meta-llama/Llama-3.1-8B-Instruct"
+        elif net == "llama_3b_base":
+            model_name = "meta-llama/Llama-3.2-3B"
+        elif net == "llama_3b_instruct":
+            model_name = "meta-llama/Llama-3.1-3B-Instruct"
+        elif net == "llama_1b_base":
+            model_name = "meta-llama/Llama-3.2-1B"
+        elif net == "llama_1b_instruct":
+            model_name = "meta-llama/Llama-3.2-1B-Instruct"
+        collact_fn = get_llama_collactor(model_name, args.max_length, args.prefix)
     else:
         collact_fn = None
     return collact_fn

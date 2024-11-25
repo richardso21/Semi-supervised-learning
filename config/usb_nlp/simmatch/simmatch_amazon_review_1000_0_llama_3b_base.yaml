@@ -1,8 +1,8 @@
 algorithm: simmatch
 save_dir: ./saved_models/usb_nlp
-save_name: simmatch_amazon_review_1000_0_llama_8b
+save_name: simmatch_amazon_review_1000_0_llama_3b_base
 resume: True
-load_path: ./saved_models/usb_nlp/simmatch_amazon_review_1000_0_llama_8b/latest_model.pth
+load_path: ./saved_models/usb_nlp/simmatch_amazon_review_1000_0_llama_3b_base/latest_model.pth
 overwrite: True
 use_tensorboard: True
 use_wandb: True
@@ -12,8 +12,8 @@ num_warmup_iter: 5120
 num_log_iter: 256
 num_eval_iter: 2048
 num_labels: 1000
-batch_size: 8
-eval_batch_size: 8
+batch_size: 4
+eval_batch_size: 4
 ema_m: 0.0
 p_cutoff: 0.95
 in_loss_ratio: 1.0
@@ -34,7 +34,7 @@ weight_decay: 0.0005
 layer_decay: 1.0
 amp: False
 clip: 0.0
-net: llama_8b
+net: llama_3b_base
 net_from_name: False
 data_dir: ./data
 dataset: amazon_review
@@ -49,4 +49,4 @@ multiprocessing_distributed: False
 dist_url: tcp://127.0.0.1:10087
 dist_backend: nccl
 gpu: None
-prefix: "Attached is a review left by a customer on an ecommerce platform, Amazon. Your role is to infer the reviewer's rating, in a scale of 1 to 5. Reply with only one of the following responses: ['1', '2', '3', '4', '5']. REVIEW: "
+prefix: ""

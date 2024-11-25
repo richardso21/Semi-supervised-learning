@@ -6,14 +6,14 @@ import torch.nn as nn
 from peft.mapping import get_peft_model
 from peft.tuners.lora import LoraConfig
 from peft.utils.peft_types import TaskType
-from transformers import LlamaModel
+from transformers import AutoModel
 
 
 class ClassificationLlama(nn.Module):
-    def __init__(self, name, num_classes=2, lora_config=None):
+    def __init__(self, name, num_classes=2, lora_config=None, **kwargs):
         super(ClassificationLlama, self).__init__()
         # Load pre-trained llama model
-        self.llama = LlamaModel.from_pretrained(name)
+        self.llama = AutoModel.from_pretrained(name, **kwargs)
 
         # If lora_config is defined, wrap model with peft
         if lora_config is not None:
@@ -21,9 +21,9 @@ class ClassificationLlama(nn.Module):
             self.llama.print_trainable_parameters()
 
         self.dropout = torch.nn.Dropout(p=0.1, inplace=False)
-        self.num_features = 768
+        self.num_features = 2048
         self.classifier = nn.Sequential(
-            *[nn.Linear(768, 768), nn.GELU(), nn.Linear(768, num_classes)]
+            *[nn.Linear(self.num_features, 768), nn.GELU(), nn.Linear(768, num_classes)]
         )
 
     def forward(self, x, only_fc=False, only_feat=False, return_embed=False, **kwargs):
@@ -72,18 +72,11 @@ class ClassificationLlama(nn.Module):
         return []
 
 
-def llama_8b(pretrained=True, pretrained_path=None, **kwargs):
-    model = ClassificationLlama(name="meta-llama/Meta-Llama-3-8B-Instruct", **kwargs)
-    return model
-
-
-def llama_8b_lora(pretrained=True, pretrained_path=None, **kwargs):
+def generate_lora_config(r=4, lora_alpha=16, lora_dropout=0.1):
     lora_config = LoraConfig(
-        r=32,
-        lora_alpha=32,
-        lora_dropout=0.1,
-        bias="none",
-        task_type=TaskType.FEATURE_EXTRACTION,
+        r=r,
+        lora_alpha=lora_alpha,
+        lora_dropout=lora_dropout,
         target_modules=[
             "q_proj",
             "k_proj",
@@ -93,10 +86,60 @@ def llama_8b_lora(pretrained=True, pretrained_path=None, **kwargs):
             "up_proj",
             "down_proj",
         ],
+        task_type=TaskType.FEATURE_EXTRACTION,
     )
+    return lora_config
+
+
+def llama_8b_base(pretrained=True, pretrained_path=None, **kwargs):
     model = ClassificationLlama(
-        name="meta-llama/Meta-Llama-3-8B-Instruct",
-        lora_config=lora_config,
+        name="meta-llama/Llama-3.1-8B",
+        lora_config=generate_lora_config(),
+        **kwargs,
+    )
+    return model
+
+
+def llama_8b_instruct(pretrained=True, pretrained_path=None, **kwargs):
+    model = ClassificationLlama(
+        name="meta-llama/Meta-Llama-3.1-8B-Instruct",
+        lora_config=generate_lora_config(),
+        **kwargs,
+    )
+    return model
+
+
+def llama_3b_base(pretrained=True, pretrained_path=None, **kwargs):
+    model = ClassificationLlama(
+        name="meta-llama/Llama-3.2-3B",
+        lora_config=generate_lora_config(),
+        **kwargs,
+    )
+    return model
+
+
+def llama_3b_instruct(pretrained=True, pretrained_path=None, **kwargs):
+    model = ClassificationLlama(
+        name="meta-llama/Llama-3.2-3B-Instruct",
+        lora_config=generate_lora_config(),
+        **kwargs,
+    )
+    return model
+
+
+def llama_1b_base(pretrained=True, pretrained_path=None, **kwargs):
+    model = ClassificationLlama(
+        name="meta-llama/Llama-3.2-1B",
+        lora_config=generate_lora_config(),
+        **kwargs,
+    )
+    return model
+
+
+def llama_1b_instruct(pretrained=True, pretrained_path=None, **kwargs):
+    model = ClassificationLlama(
+        name="meta-llama/Llama-3.2-1B-Instruct",
+        lora_config=generate_lora_config(),
         **kwargs,
     )
     return model
