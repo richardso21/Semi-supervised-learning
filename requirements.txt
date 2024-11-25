@@ -16,3 +16,5 @@ tqdm>=4.64.0
 transformers>=4.30.0
 wandb
 aim
+sentencepiece
+peft

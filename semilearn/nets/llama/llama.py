@@ -3,14 +3,23 @@
 
 import torch
 import torch.nn as nn
+from peft.mapping import get_peft_model
+from peft.tuners.lora import LoraConfig
+from peft.utils.peft_types import TaskType
 from transformers import LlamaModel
 
 
 class ClassificationLlama(nn.Module):
-    def __init__(self, name, num_classes=2):
+    def __init__(self, name, num_classes=2, lora_config=None):
         super(ClassificationLlama, self).__init__()
         # Load pre-trained llama model
         self.llama = LlamaModel.from_pretrained(name)
+
+        # If lora_config is defined, wrap model with peft
+        if lora_config is not None:
+            self.llama = get_peft_model(self.llama, lora_config)
+            self.llama.print_trainable_parameters()
+
         self.dropout = torch.nn.Dropout(p=0.1, inplace=False)
         self.num_features = 768
         self.classifier = nn.Sequential(
@@ -65,4 +74,29 @@ class ClassificationLlama(nn.Module):
 
 def llama_8b(pretrained=True, pretrained_path=None, **kwargs):
     model = ClassificationLlama(name="meta-llama/Meta-Llama-3-8B", **kwargs)
+    return model
+
+
+def llama_8b_lora(pretrained=True, pretrained_path=None, **kwargs):
+    lora_config = LoraConfig(
+        r=32,
+        lora_alpha=32,
+        lora_dropout=0.1,
+        bias="none",
+        task_type=TaskType.FEATURE_EXTRACTION,
+        target_modules=[
+            "q_proj",
+            "k_proj",
+            "v_proj",
+            "o_proj",
+            "gate_proj",
+            "up_proj",
+            "down_proj",
+        ],
+    )
+    model = ClassificationLlama(
+        name="meta-llama/Meta-Llama-3-8B",
+        lora_config=lora_config,
+        **kwargs,
+    )
     return model

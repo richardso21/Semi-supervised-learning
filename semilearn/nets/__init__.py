@@ -4,7 +4,7 @@
 from .bert import bert_base_cased, bert_base_uncased
 from .deberta import deberta_base
 from .hubert import hubert_base
-from .llama import llama_8b
+from .llama import llama_8b, llama_8b_lora
 from .resnet import resnet50
 from .roberta import roberta_base, roberta_base_sentiment
 from .t5 import t5_base
