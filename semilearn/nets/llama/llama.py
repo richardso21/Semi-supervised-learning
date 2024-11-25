@@ -73,7 +73,7 @@ class ClassificationLlama(nn.Module):
 
 
 def llama_8b(pretrained=True, pretrained_path=None, **kwargs):
-    model = ClassificationLlama(name="meta-llama/Meta-Llama-3-8B", **kwargs)
+    model = ClassificationLlama(name="meta-llama/Meta-Llama-3-8B-Instruct", **kwargs)
     return model
 
 
@@ -95,7 +95,7 @@ def llama_8b_lora(pretrained=True, pretrained_path=None, **kwargs):
         ],
     )
     model = ClassificationLlama(
-        name="meta-llama/Meta-Llama-3-8B",
+        name="meta-llama/Meta-Llama-3-8B-Instruct",
         lora_config=lora_config,
         **kwargs,
     )
