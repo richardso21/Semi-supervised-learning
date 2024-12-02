@@ -14,7 +14,7 @@ from .llama import (
 )
 from .resnet import resnet50
 from .roberta import roberta_base, roberta_base_sentiment
-from .t5 import t5_base
+from .t5 import t5_base, flan_t5_base
 from .vit import (
     vit_base_patch16_96,
     vit_base_patch16_224,

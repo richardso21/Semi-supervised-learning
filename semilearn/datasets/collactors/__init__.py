@@ -10,5 +10,6 @@ from .nlp_collactor import (
     get_roberta_base_collactor,
     get_roberta_base_sentiment_collactor,
     get_t5_base_collactor,
+    get_flan_t5_base_collactor,
     get_xlnet_base_cased_collactor,
 )

@@ -3,14 +3,14 @@
 
 import torch
 import torch.nn as nn
-from transformers import T5Model
+from transformers import T5EncoderModel
 
 
 class ClassificationT5(nn.Module):
     def __init__(self, name, num_classes=2):
         super(ClassificationT5, self).__init__()
         # Load pre-trained bert model
-        self.t5 = T5Model.from_pretrained(name)
+        self.t5 = T5EncoderModel.from_pretrained(name)
         self.dropout = torch.nn.Dropout(p=0.1, inplace=False)
         self.num_features = 768
         self.classifier = nn.Sequential(
@@ -70,6 +70,9 @@ def t5_base(pretrained=True, pretrained_path=None, **kwargs):
     model = ClassificationT5(name="google-t5/t5-base", **kwargs)
     return model
 
+def flan_t5_base(pretrained=True, pretrained_path=None, **kwargs):
+    model = ClassificationT5(name="google/flan-t5-base", **kwargs)
+    return model
 
 if __name__ == "__main__":
     model = t5_base()

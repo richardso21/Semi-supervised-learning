@@ -186,7 +186,13 @@ def get_xlnet_base_cased_collactor(max_length=512):
 
 
 def get_t5_base_collactor(max_length=512, prefix=""):
-    tokenizer = T5Tokenizer.from_pretrained("google-t5/t5-base")
+    tokenizer = AutoTokenizer.from_pretrained("google-t5/t5-base")
+    collact_fn = DataCollatorWithPadding(tokenizer, max_length=max_length, prefix=prefix)
+    return collact_fn
+
+
+def get_flan_t5_base_collactor(max_length=512, prefix=""):
+    tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-base")
     collact_fn = DataCollatorWithPadding(tokenizer, max_length=max_length, prefix=prefix)
     return collact_fn
 

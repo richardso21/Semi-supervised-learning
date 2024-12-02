@@ -164,6 +164,9 @@ def get_collactor(args, net):
     elif net == 't5_base':
         from semilearn.datasets.collactors import get_t5_base_collactor
         collact_fn = get_t5_base_collactor(args.max_length, args.prefix)
+    elif net == 'flan_t5_base':
+        from semilearn.datasets.collactors import get_flan_t5_base_collactor
+        collact_fn = get_flan_t5_base_collactor(args.max_length, args.prefix)
     elif net.startswith("llama"):
         from semilearn.datasets.collactors import get_llama_collactor
         if net == "llama_8b_base":
