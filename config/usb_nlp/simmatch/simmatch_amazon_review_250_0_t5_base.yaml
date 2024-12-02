@@ -1,8 +1,8 @@
 algorithm: simmatch
 save_dir: ./saved_models/usb_nlp
-save_name: simmatch_amazon_review_250_0_flan_t5_base
+save_name: simmatch_amazon_review_250_0_t5_base
 resume: True
-load_path: ./saved_models/usb_nlp/simmatch_amazon_review_250_0_flan_t5_base/latest_model.pth
+load_path: ./saved_models/usb_nlp/simmatch_amazon_review_250_0_t5_base/latest_model.pth
 overwrite: True
 use_tensorboard: True
 use_wandb: True
@@ -12,8 +12,8 @@ num_warmup_iter: 5120
 num_log_iter: 256
 num_eval_iter: 2048
 num_labels: 250
-batch_size: 8
-eval_batch_size: 8
+batch_size: 4
+eval_batch_size: 4
 ema_m: 0.0
 p_cutoff: 0.95
 in_loss_ratio: 1.0
@@ -34,7 +34,7 @@ weight_decay: 0.0005
 layer_decay: 1.0
 amp: False
 clip: 0.0
-net: flan_t5_base
+net: t5_base
 net_from_name: False
 data_dir: ./data
 dataset: amazon_review

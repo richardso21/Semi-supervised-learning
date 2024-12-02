@@ -12,8 +12,8 @@ num_warmup_iter: 5120
 num_log_iter: 256
 num_eval_iter: 2048
 num_labels: 1000
-batch_size: 8
-eval_batch_size: 8
+batch_size: 4
+eval_batch_size: 4
 ema_m: 0.0
 p_cutoff: 0.95
 in_loss_ratio: 1.0
@@ -49,4 +49,4 @@ multiprocessing_distributed: False
 dist_url: tcp://127.0.0.1:10087
 dist_backend: nccl
 gpu: None
-prefix: ''
+prefix: ""
